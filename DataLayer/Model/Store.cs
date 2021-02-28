@@ -12,6 +12,6 @@ namespace DataLayer.Model
         [DataMember]
         public string Info { get; set; }
         [DataMember]
-        public District District { get; set; }
+        public int DistrictID { get; set; }
     }
 }
