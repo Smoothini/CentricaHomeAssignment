@@ -9,8 +9,15 @@ namespace DataLayer
 
         public DBConnect()
         {
-            sqlConnection = new SqlConnection();
-            sqlConnection.ConnectionString = conString;
+            sqlConnection = new SqlConnection
+            {
+                ConnectionString = conString
+            };
+        }
+
+        public SqlConnection GetSqlConnection()
+        {
+            return sqlConnection;
         }
     }
 }
