@@ -41,7 +41,7 @@ namespace DataLayer.DAO
 
         public void Delete(int id)
         {
-            if (id < 1) throw new IllegalDataArgumentException("Provided ID value is illegal. ID must be greater than 0.", new ArgumentOutOfRangeException());
+            if (id < 1) throw new IllegalDataArgumentException($"Provided ID value ({id}) is illegal. ID must be greater than 0.", new ArgumentOutOfRangeException());
 
             string query = $"EXEC spStoreDeleteById {id}";
 
@@ -63,7 +63,7 @@ namespace DataLayer.DAO
 
         public Store Get(int id)
         {
-            if (id < 1) throw new IllegalDataArgumentException("Provided ID value is illegal. ID must be greater than 0.", new ArgumentOutOfRangeException());
+            if (id < 1) throw new IllegalDataArgumentException($"Provided ID value ({id}) is illegal. ID must be greater than 0.", new ArgumentOutOfRangeException());
 
             Store store = new Store();
 
@@ -88,7 +88,7 @@ namespace DataLayer.DAO
                         catch(Exception e)
                         {
                             link.Close();
-                            throw new Exception("haha oops", e);
+                            throw new DataLayerException($"Could not get the store with ID={id}", e);
                         }
                     }
                     link.Close();
@@ -96,7 +96,7 @@ namespace DataLayer.DAO
             }
             catch (Exception e)
             {
-                throw new DataLayerException("Store Delete Failed", e);
+                throw new DataLayerException($"Could not get the store with ID={id}", e);
             }
             return store;
         }
@@ -128,7 +128,8 @@ namespace DataLayer.DAO
                             }
                             catch (Exception e)
                             {
-                                throw new Exception("haha oops", e);
+                                link.Close();
+                                throw new DataLayerException("Could not get a store", e);
                             }
                         }
                     }
@@ -137,7 +138,7 @@ namespace DataLayer.DAO
             }
             catch (Exception e)
             {
-                throw new DataLayerException("Store Delete Failed", e);
+                throw new DataLayerException("Could not get the stores list", e);
             }
 
             return stores;
@@ -156,7 +157,15 @@ namespace DataLayer.DAO
                 using (SqlCommand cmd = new SqlCommand(query,link))
                 {
                     link.Open();
-                    var response = cmd.ExecuteReader();
+                    try
+                    {
+                        var response = cmd.ExecuteReader();
+                    }
+                    catch(Exception e)
+                    {
+                        link.Close();
+                        throw new DataLayerException("Update failed", e);
+                    }
                     link.Close();
                 }
 

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using DataLayer.DAO;
-using DataLayer.Model;
+using DataLayer;
 using API.Dto;
 using API.DtoMapper;
 
@@ -22,68 +21,77 @@ namespace API.Controllers
 
         // GET: api/<StoreController>
         [HttpGet]
-        public IEnumerable<StoreDto> Get()
+        public IActionResult Get()
         {
-            var storesdto = new List<StoreDto>();
-            try 
+            try
             {
-                return provider.GetAll().allToDto();
+                return Ok(provider.GetAll().allToDto());
             }
-            catch(Exception e)
-            { }
-            return storesdto;
+            catch (Exception e)
+            {
+                return BadRequest($"ERROR: {e.Message}");
+            }
         }
 
         // GET api/<StoreController>/5
         [HttpGet("{id}")]
-        public StoreDto Get(int id)
+        public IActionResult Get(int id)
         {
-            return provider.Get(id).toDto();
+            try
+            {
+                var storedto = provider.Get(id).toDto();
+                return Ok(storedto);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"ERROR: {e.Message}");
+            }
         }
 
         // POST api/<StoreController>
         [HttpPost]
-        public StoreDto Post([FromBody] Store store)
+        public IActionResult Post([FromBody] StoreDto storedto)
         {
-            if (store != null)
+            try
             {
-                try
-                {
-                    provider.Create(store);
-                }
-                catch(Exception e)
-                {
-
-                }
+                provider.Create(storedto.toDao());
+                return Ok("Store created succsessfully.");
             }
-            return store.toDto();
+            catch (Exception e)
+            {
+                return BadRequest($"ERROR: {e.Message}");
+            }
+            
         }
 
         // PUT api/<StoreController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Store store)
+        public IActionResult Put(int id, [FromBody] StoreDto storedto)
         {
             try
             {
-                provider.Update(store);
+                provider.Update(storedto.toDao());
+                return Ok("Store updated successfully!");
             }
             catch (Exception e)
             {
-
+                return BadRequest($"ERROR: {e.Message}");
             }
+            
         }
 
         // DELETE api/<StoreController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
                 provider.Delete(id);
+                return Ok("Store deleted successfully!");
             }
             catch (Exception e)
             {
-
+                return BadRequest($"ERROR: {e.Message}");
             }
         }
     }
