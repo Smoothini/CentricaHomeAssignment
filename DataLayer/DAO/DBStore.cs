@@ -9,7 +9,7 @@ namespace DataLayer.DAO
 {
     public class DBStore : IDAO<Store>
     {
-        private DBConnect con = null;
+        private readonly DBConnect con = null;
 
         public DBStore()
         {

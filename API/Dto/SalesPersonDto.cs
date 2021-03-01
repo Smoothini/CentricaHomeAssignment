@@ -1,6 +1,6 @@
-﻿namespace DataLayer.Model
+﻿namespace API.Dto
 {
-    public class SalesPerson
+    public class SalesPersonDto
     {
         public int ID { get; set; }
         public string Name { get; set; }
