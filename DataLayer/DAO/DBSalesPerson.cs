@@ -169,7 +169,7 @@ namespace DataLayer.DAO
             }
             catch (Exception e)
             {
-                throw new Exception("Salesperson Update Failed", e);
+                throw new DataLayerException("Salesperson Update Failed", e);
             }
         }
     }

@@ -1,9 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using DataLayer.DAO;
-using DataLayer;
 using API.Dto;
 using API.DtoMapper;
+using DataLayer.DAO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -66,11 +65,11 @@ namespace API.Controllers
 
         // PUT api/<StoreController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] StoreDto storedto)
+        public IActionResult Put(int id, [FromBody] StoreDto dto)
         {
             try
             {
-                provider.Update(storedto.toDao());
+                provider.Update(dto.toDao());
                 return Ok("Store updated successfully!");
             }
             catch (Exception e)
