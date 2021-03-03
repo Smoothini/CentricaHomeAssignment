@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-namespace DataLayer.Model
+﻿namespace API.Dto
 {
-    public class District
+    public class DistrictDto
     {
         public int ID { get; set; }
         public string Name { get; set; }
