@@ -15,7 +15,8 @@ namespace API.DtoMapper
                     ID = store.ID,
                     Name = store.Name,
                     Info = store.Info,
-                    DistrictID = store.DistrictID
+                    DistrictID = store.DistrictID,
+                    DistrictName = store.DistrictName
                 };
             }
             return null;
@@ -40,7 +41,8 @@ namespace API.DtoMapper
                     ID = storedto.ID,
                     Name = storedto.Name,
                     Info = storedto.Info,
-                    DistrictID = storedto.DistrictID
+                    DistrictID = storedto.DistrictID,
+                    DistrictName = storedto.DistrictName
                 };
             }
             return null;

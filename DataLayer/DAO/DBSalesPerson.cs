@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using DataLayer.Interface;
 using DataLayer.Model;
 
@@ -10,9 +9,9 @@ namespace DataLayer.DAO
     public class DBSalesPerson : IDAO<SalesPerson>
     {
         private readonly DBConnect conn;
-        public DBSalesPerson()
+        public DBSalesPerson(DBConnect db)
         {
-            this.conn = new DBConnect();
+            conn = db;
         }
 
         public void Create(SalesPerson t)

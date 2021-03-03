@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string Info { get; set; }
         public int DistrictID { get; set; }
+        public string DistrictName { get; set; }
     }
 }

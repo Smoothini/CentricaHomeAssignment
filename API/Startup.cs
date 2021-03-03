@@ -1,3 +1,4 @@
+using DataLayer;
 using DataLayer.DAO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,8 +26,10 @@ namespace API
             });
 
             services.AddControllers();
+            services.AddSingleton<DBConnect>();
             services.AddSingleton<DBStore>();
             services.AddSingleton<DBSalesPerson>();
+            services.AddSingleton<DBDistrict>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

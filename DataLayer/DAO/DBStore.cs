@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using DataLayer.Interface;
 using DataLayer.Model;
 
@@ -9,23 +8,22 @@ namespace DataLayer.DAO
 {
     public class DBStore : IDAO<Store>
     {
-        private readonly DBConnect con = null;
-
-        public DBStore()
+        private readonly DBConnect conn;
+        public DBStore(DBConnect db)
         {
-            con = new DBConnect();
+            conn = db;
         }
 
         public void Create(Store t)
         {
             if (String.IsNullOrEmpty(t.Name)) throw new IllegalDataArgumentException("Store name CAN NOT be empty", new ArgumentNullException());
-            if (t.DistrictID < 1) throw new IllegalDataArgumentException("District ID must be greater than 0", new ArgumentOutOfRangeException());
+            if (t.DistrictID < 0) throw new IllegalDataArgumentException("District ID must be greater than 0", new ArgumentOutOfRangeException());
 
             string query = $"EXEC spStoreCreate '{t.Name}','{t.Info}',{t.DistrictID}";
 
             try
             {
-                var link = con.GetSqlConnection();
+                var link = conn.GetSqlConnection();
                 using(SqlCommand cmd = new SqlCommand(query,link))
                 {
                     link.Open();
@@ -47,7 +45,7 @@ namespace DataLayer.DAO
 
             try
             {
-                var link = con.GetSqlConnection();
+                var link = conn.GetSqlConnection();
                 using(SqlCommand cmd = new SqlCommand(query,link))
                 {
                     link.Open();
@@ -71,7 +69,7 @@ namespace DataLayer.DAO
 
             try
             {
-                var link = con.GetSqlConnection();
+                var link = conn.GetSqlConnection();
                 using (SqlCommand cmd = new SqlCommand(query, link))
                 {
                     link.Open();
@@ -84,6 +82,7 @@ namespace DataLayer.DAO
                             store.Name = reader.GetString(1);
                             store.Info = reader.GetString(2);
                             store.DistrictID = reader.GetInt32(3);
+                            store.DistrictName = reader.GetString(4);
                         }
                         catch(Exception e)
                         {
@@ -109,7 +108,7 @@ namespace DataLayer.DAO
 
             try
             {
-                var link = con.GetSqlConnection();
+                var link = conn.GetSqlConnection();
                 using (SqlCommand cmd = new SqlCommand(query, link))
                 {
                     link.Open();
@@ -124,6 +123,7 @@ namespace DataLayer.DAO
                                 store.Name = reader.GetString(1);
                                 store.Info = reader.GetString(2);
                                 store.DistrictID = reader.GetInt32(3);
+                                store.DistrictName = reader.GetString(4);
                                 stores.Add(store);
                             }
                             catch (Exception e)
@@ -153,7 +153,7 @@ namespace DataLayer.DAO
 
             try
             {
-                var link = con.GetSqlConnection();
+                var link = conn.GetSqlConnection();
                 using (SqlCommand cmd = new SqlCommand(query,link))
                 {
                     link.Open();

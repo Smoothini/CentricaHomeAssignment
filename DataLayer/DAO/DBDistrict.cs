@@ -86,8 +86,8 @@ namespace DataLayer.DAO
                             result.ID = reader.GetInt32(0);
                             result.Name = reader.GetString(1);
                             result.PSPID = reader.GetInt32(2);
-                            result.PSPName = reader.GetString(3);
-                            result.SSPCount = reader.GetInt32(4);
+                            //result.PSPName = reader.GetString(3);
+                            //result.SSPCount = reader.GetInt32(4);
                         }
                         catch (Exception e)
                         {
