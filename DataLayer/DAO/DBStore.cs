@@ -19,7 +19,12 @@ namespace DataLayer.DAO
             if (String.IsNullOrEmpty(t.Name)) throw new IllegalDataArgumentException("Store name CAN NOT be empty", new ArgumentNullException());
             if (t.DistrictID < 0) throw new IllegalDataArgumentException("District ID must be greater than 0", new ArgumentOutOfRangeException());
 
-            string query = $"EXEC spStoreCreate '{t.Name}','{t.Info}',{t.DistrictID}";
+            string query = "";
+
+            if (t.DistrictID == 0)
+                query = $"EXEC spStoreCreate '{t.Name}','{t.Info}',NULL";
+            else
+                query = $"EXEC spStoreCreate '{t.Name}','{t.Info}',{t.DistrictID}";
 
             try
             {
@@ -81,8 +86,17 @@ namespace DataLayer.DAO
                             store.ID = reader.GetInt32(0);
                             store.Name = reader.GetString(1);
                             store.Info = reader.GetString(2);
-                            store.DistrictID = reader.GetInt32(3);
-                            store.DistrictName = reader.GetString(4);
+
+                            if (!reader.IsDBNull(3))
+                                store.DistrictID = reader.GetInt32(3);
+                            else
+                                store.DistrictID = 0;
+
+                            if (!reader.IsDBNull(4))
+                                store.DistrictName = reader.GetString(4);
+                            else
+                                store.DistrictName = "No District";
+
                         }
                         catch(Exception e)
                         {
@@ -122,8 +136,19 @@ namespace DataLayer.DAO
                                 store.ID = reader.GetInt32(0);
                                 store.Name = reader.GetString(1);
                                 store.Info = reader.GetString(2);
-                                store.DistrictID = reader.GetInt32(3);
-                                store.DistrictName = reader.GetString(4);
+
+                                if (!reader.IsDBNull(3))
+                                    store.DistrictID = reader.GetInt32(3);
+                                else
+                                    store.DistrictID = 0;
+
+                                if (!reader.IsDBNull(4))
+                                    store.DistrictName = reader.GetString(4);
+                                else
+                                    store.DistrictName = "No District";
+
+                                //store.DistrictID = reader.GetInt32(3);
+                                //store.DistrictName = reader.GetString(4);
                                 stores.Add(store);
                             }
                             catch (Exception e)

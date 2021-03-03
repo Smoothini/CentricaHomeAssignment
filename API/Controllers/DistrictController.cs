@@ -116,6 +116,26 @@ namespace API.Controllers
 
         }
 
+        // GET api/<DistrictController>/getASSP/5
+        // GETS a list of asigned secondary sales persons for 
+        // the district with given id
+        //
+        [HttpGet("getASSP/{id}")]
+        public IActionResult GetASSP(int id)
+        {
+            try
+            {
+                return Ok(provider.GetAssignedSecondary(id).allToDto());
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"ERROR: {e.Message}");
+            }
+
+        }
+
+
+
 
         // POST api/<DistrictController>/appendSecondary/d_id/s_id
         [HttpPost("appendSecondary/{district_id}/{salesperson_id}")]

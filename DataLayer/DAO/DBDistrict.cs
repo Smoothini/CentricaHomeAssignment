@@ -18,7 +18,13 @@ namespace DataLayer.DAO
         {
             if (String.IsNullOrEmpty(t.Name)) throw new IllegalDataArgumentException("District name CAN NOT be empty", new ArgumentNullException());
 
-            string query = $"INSERT INTO District (Name, PrimarySalesPersonID) VALUES ('{t.Name}', '{t.PSPID}')";
+            string query = "";
+        
+            if (t.PSPID == 0)
+                query = $"INSERT INTO District (Name, PrimarySalesPersonID) VALUES ('{t.Name}', NULL)";
+            else
+                query = $"INSERT INTO District (Name, PrimarySalesPersonID) VALUES ('{t.Name}', '{t.PSPID}')";
+
             try
             {
                 var link = conn.GetSqlConnection();
@@ -124,16 +130,28 @@ namespace DataLayer.DAO
                             District ds = new District();
                             try
                             {
+
                                 ds.ID = reader.GetInt32(0);
                                 ds.Name = reader.GetString(1);
-                                ds.PSPID = reader.GetInt32(2);
-                                ds.PSPName = reader.GetString(3);
+
+
+                                if (!reader.IsDBNull(2))
+                                    ds.PSPID = reader.GetInt32(2);
+                                else
+                                    ds.PSPID = 0;
+
+                                if (!reader.IsDBNull(3))
+                                    ds.PSPName = reader.GetString(3);
+                                else
+                                    ds.PSPName = "No PSP assigned";
                                 ds.SSPCount = reader.GetInt32(4);
+
+                                
                                 result.Add(ds);
                             }
                             catch (Exception e)
                             {
-                                link.Close();
+                                //link.Close();
                                 throw new DataLayerException("Could not get a district", e);
                             }
                         }
@@ -155,7 +173,7 @@ namespace DataLayer.DAO
             if (t == null) throw new IllegalDataArgumentException("District object is null", new NullReferenceException());
             if (t.ID < 0) throw new IllegalDataArgumentException("District ID must be greater than 0", new ArgumentOutOfRangeException());
 
-            string query = $"UPDATE District SET Name='{t.Name}', PrimarySalesPersonID='{t.PSPID}' WHERE ID={t.ID}";
+            string query = $"UPDATE District SET Name='{t.Name}', PrimarySalesPersonID={t.PSPID} WHERE ID={t.ID}";
 
             try
             {
@@ -244,6 +262,49 @@ namespace DataLayer.DAO
         {
             var result = new List<SalesPerson>();
             string query = $"EXEC spDistrictPossibleSSP '{DistrictID}'";
+
+            try
+            {
+                var link = conn.GetSqlConnection();
+                using (SqlCommand cmd = new SqlCommand(query, link))
+                {
+                    link.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            SalesPerson sp = new SalesPerson();
+                            try
+                            {
+                                sp.ID = reader.GetInt32(0);
+                                sp.Name = reader.GetString(1);
+                                sp.Surname = reader.GetString(2);
+                                result.Add(sp);
+                            }
+                            catch (Exception e)
+                            {
+                                link.Close();
+                                throw new DataLayerException("Could not get a salesperson", e);
+                            }
+                        }
+                    }
+                    link.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new DataLayerException("Could not get the salespersons list", e);
+            }
+
+            return result;
+        }
+
+
+        public IEnumerable<SalesPerson> GetAssignedSecondary(int DistrictID)
+        {
+            var result = new List<SalesPerson>();
+            string query = $"EXEC spDistrictListSSP '{DistrictID}'";
 
             try
             {

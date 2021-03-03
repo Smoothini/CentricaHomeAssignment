@@ -41,7 +41,7 @@ namespace DataLayerUnitTest
             DBSalesPerson dB = new DBSalesPerson(this.dBConnect);
             var ppl = dB.GetAll();
 
-            Assert.IsNotNull(ppl, "Is actually null wopa");
+            Assert.IsNotNull(ppl, "Null object returned");
             Assert.IsTrue(ppl.Count() > 0, "There are no salesmen");
         }
 
