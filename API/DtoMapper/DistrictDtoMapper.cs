@@ -4,8 +4,16 @@ using DataLayer.Model;
 
 namespace API.DtoMapper
 {
+    /// <summary>
+    /// Maps A Data Transfer Object to a Database Access Object and vice-versa.
+    /// </summary>
     public static class DistrictDtoMapper
     {
+        /// <summary>
+        /// Map DAO object to DTO
+        /// </summary>
+        /// <param name="district">DAO District Object</param>
+        /// <returns>Mapped DTO District Object</returns>
         public static DistrictDto toDto(this District district)
         {
             if (district != null)
@@ -22,6 +30,11 @@ namespace API.DtoMapper
             return null;
         }
 
+        /// <summary>
+        /// Maps a list of DAO Objects to DTO
+        /// </summary>
+        /// <param name="districts">List of DAO District Objects</param>
+        /// <returns>List of Mapped DTO Districts Objects</returns>
         public static IEnumerable<DistrictDto> allToDto(this IEnumerable<District> districts)
         {
             var districtsdto = new List<DistrictDto>();
@@ -32,6 +45,11 @@ namespace API.DtoMapper
             return districtsdto;
         }
 
+        /// <summary>
+        /// Maps a DTO Object back to a DAO.
+        /// </summary>
+        /// <param name="districtdto">DTO District Object</param>
+        /// <returns>Mapped DAO District Object</returns>
         public static District toDao(this DistrictDto districtdto)
         {
             if (districtdto != null)

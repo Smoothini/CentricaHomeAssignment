@@ -1,5 +1,8 @@
 ﻿namespace API.Dto
 {
+    /// <summary>
+    /// Store Data Transfer Object
+    /// </summary>
     public class StoreDto
     {
         public int ID { get; set; }

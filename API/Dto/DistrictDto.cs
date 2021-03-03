@@ -2,6 +2,9 @@
 
 namespace API.Dto
 {
+    /// <summary>
+    /// District Data Transfer Object
+    /// </summary>
     public class DistrictDto
     {
         public int ID { get; set; }
