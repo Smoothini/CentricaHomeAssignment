@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{6ECC53F1-CA8D-4605-8FB7-E04210C944BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayerUnitTest", "DataLayerUnitTest\DataLayerUnitTest.csproj", "{706BD04F-AC00-4CDE-A0FA-2FA560CFC370}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayerUnitTest", "DataLayerUnitTest\DataLayerUnitTest.csproj", "{706BD04F-AC00-4CDE-A0FA-2FA560CFC370}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6D3F7DA-2194-4860-ADB8-2B9A3B10F76A}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
